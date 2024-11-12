@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do List</title>
+    <link rel="stylesheet" media="screen" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <main>
+      <section class="to-do grid items-start py-10 px-4">
+        <div
+          class="to-do__inner grid grid-rows-[auto_1fr] h-full mx-auto my-0 max-w-[1200px] w-full bg-white border-separate border-2 border-black"
+        >
+          <header class="grid md:flex justify-between gap-6 p-6 h-fit border-2 border-black border-collapse ">
+            <h1 class="to-do__title text-3xl font-semibold">To-do List</h1>
+            <div class="to-do__add-tasks flex gap-4">
+              <input
+                class="rounded-md border-2 indent-2 placeholder:text-sm to-do-content w-fit h-9"
+                placeholder="Enter your task"
+                type="text"
+                name=""
+                id=""
+              /><button class="add-todo-btn">Add</button>
+            </div>
+          </header>
+          <div class="to-do__wrapper grid max-md:grid-rows-[fit-content_fit-content] md:grid-cols-2 h-full">
+            <ul class="to-do-list  border-2 border-black border-collapse min-h-[15rem] flex flex-col gap-2 items-center py-6 px-4"></ul>
+            <div class="to-do__task-tracker px-4 py-6 sm:p-6 sm:h-full h-fit  border-2 border-black border-collapse space-y-6">
+              <div class="daily-affirmation space-y-4">
+                <h2>Daily Affirmation</h2>
+                <div class="daily-affirmations-content__wrapper flex p-4 items-center w-full md:min-h-20 h-full bg-white rounded-lg border border-black shadow-[4px_4px] shadow-black">
+                <i class="daily-affirmation-content my-auto" style="font-family: Georgia, 'Times New Roman', Times, serif;"></i></div>
+              </div>
+              <div class="completed-tasks space-y-4">
+                <h2>Completed Tasks</h2>
+                <div class="completed-tasks-content">
+                  <img src="" class="" alt />
+                  <div class="completed-tasks-count flex items-center gap-6 border-2 rounded-xl border-black p-4 w-fit">
+                    <img class="w-10 h-10" src="./images/star-icon.png" alt>
+                    <div class="flex flex-col items-center">
+                    <p>
+                      <span class="tasks-completed">0</span>/<span
+                        class="tasks-count"
+                        >0</span
+                      >
+                    </p>
+                    <p class="text-sm">Tasks</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
