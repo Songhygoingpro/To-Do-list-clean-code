@@ -3,12 +3,6 @@ const toDoApp = (() => {
     let Affirmation = '';
     let toDoContainer = [];
 
-    const StateManager = (() => {
-        return {
-
-        }
-    })();
-
     const FetchModule = (() => {
         const fetchAffirmation = async () => {
             try {
@@ -40,10 +34,12 @@ const toDoApp = (() => {
         }
 
         const renderToDo = () => {
-            toDoContainer.forEach((toDoTask, taskID) => {
+            toDoList.innerHTML = '';
+            toDoContainer.forEach((toDoTask, index) => {
                 const toDo = document.createElement("li");
+                toDo.setAttribute("data-index", index);
                 toDo.classList.add(`to-do-item`, "rounded-md", 'shadow-[0_4px]', 'shadow-black', 'p-4', 'border-2', 'border-black', 'flex', 'justify-between', 'w-full', 'sm:max-w-[60%]');
-                toDo.innerHTML = `<label for='${taskID}' class='flex gap-4'><input type='checkbox' id='task-${taskID}' class='rounded-md'><p>${toDoTask}</p></label><div class='toDo-changes flex gap-4'><i class="fa-regular fa-pen-to-square"></i><i class="fa fa-trash delete-todo-btn cursor-pointer"></i></div>`;
+                toDo.innerHTML = `<label for='task-${index}' class='flex gap-4'><input type='checkbox' id='task-${index}' class='accent-black rounded-md w-4 h-auto'>${toDoTask}</label><div class='toDo-changes flex gap-4 items-center'><i class="fas fa-edit edit-todo-btn"></i><i class="fa fa-trash flex items-center delete-todo-btn cursor-pointer"></i></div>`;
                 toDoList.appendChild(toDo);
             })
         }
@@ -58,30 +54,39 @@ const toDoApp = (() => {
 
         const setupEventListener = () => {
             addTodoBtn.addEventListener("click", addToDo);
-            toDoContent.addEventListener("keypress", (event) => {
-                if (event.key === "Enter") {
-                    addToDo();
-                }
-            });
-
+            toDoContent.addEventListener("keypress", handleAddToDoEnterKey);
             toDoList.addEventListener("click", deleteToDo);
-
         }
 
         const addToDo = () => {
             if (toDoContent.value.trim() !== '') {
                 toDoContainer.push(toDoContent.value);
                 UIModule.renderToDo();
-                toDoContainer = [];
                 toDoContent.value = '';
+            }
+        }
+
+        const handleAddToDoEnterKey = (event) => {
+            if (event.key === "Enter") {
+                addToDo();
             }
         }
 
         const deleteToDo = (event) => {
             if (event.target.classList.contains("delete-todo-btn")) {
-                event.target.closest(".to-do-item").remove();
+                const toDoItem = event.target.closest(".to-do-item");
+                const index = toDoItem.getAttribute("data-index");
+                toDoItem.remove();
+                toDoContainer.splice(index, 1);
+                UIModule.renderToDo();
             }
         };
+
+        const editToDo = (event) => {
+            if (event.target.classList.contains("edit-todo-btn")) {
+                event.target.closest(".to-do-item").textContent
+            }
+        }
 
         return { setupEventListener }
 
