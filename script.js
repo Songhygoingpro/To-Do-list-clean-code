@@ -25,6 +25,18 @@ const toDoApp = (() => {
         return { fetchAffirmation };
     })();
 
+    const HandleLocalStorage = (() => {
+        function saveToLocalStorage(toDoList) {
+            localStorage.setItem('toDoList', JSON.stringify(toDoList));
+        }
+
+        function loadFromLocalStorage() {
+            const storedToDoList = localStorage.getItem('toDoList');
+            return storedToDoList ? JSON.parse(storedToDoList) : [];
+        }
+        return { saveToLocalStorage, loadFromLocalStorage };
+    })();
+
     const UIModule = (() => {
         const dailyAffirmation = document.querySelector('.daily-affirmation-content');
         const toDoList = document.querySelector('.to-do-list');
@@ -77,8 +89,10 @@ const toDoApp = (() => {
                 if (editingIndex !== null) {
                     toDoContainer[editingIndex].Task = toDoContent.value;
                     editingIndex = null;
+                    addTodoBtn.textContent = 'Add';
                 } else {
                     toDoContainer.push({ 'Task': toDoContent.value, 'Checked': false });
+                    HandleLocalStorage.saveToLocalStorage(toDoContainer);
                 }
                 UIModule.renderToDo();
                 toDoContent.value = '';
@@ -98,6 +112,7 @@ const toDoApp = (() => {
                 const toDoItem = event.target.closest(".to-do-item");
                 const index = toDoItem.getAttribute("data-index");
                 toDoContainer.splice(index, 1);
+                HandleLocalStorage.saveToLocalStorage(toDoContainer);
                 UIModule.renderToDo();
                 countToDo();
                 countCompletedTodo();
@@ -110,6 +125,7 @@ const toDoApp = (() => {
                 const index = toDoItem.getAttribute("data-index");
                 toDoContent.value = toDoContainer[index].Task;
                 editingIndex = index;
+                addTodoBtn.textContent = 'Confirm';
                 toDoContent.focus();
             }
         };
@@ -150,6 +166,7 @@ const toDoApp = (() => {
         Affirmation = await FetchModule.fetchAffirmation();
         UIModule.displayAffirmation();
         TodoController.setupEventListener();
+        toDoContainer = await HandleLocalStorage.loadFromLocalStorage();
     }
 
     return { init };
