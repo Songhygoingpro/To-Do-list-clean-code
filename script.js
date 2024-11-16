@@ -88,6 +88,7 @@ const toDoApp = (() => {
             if (toDoContent.value.trim() !== '') {
                 if (editingIndex !== null) {
                     toDoContainer[editingIndex].Task = toDoContent.value;
+                    HandleLocalStorage.saveToLocalStorage(toDoContainer);
                     editingIndex = null;
                     addTodoBtn.textContent = 'Add';
                 } else {
@@ -140,9 +141,11 @@ const toDoApp = (() => {
                 const index = toDoItem.getAttribute("data-index");
                 if (toDoContainer[index].Checked === false) {
                     toDoContainer[index].Checked = true;
+                    HandleLocalStorage.saveToLocalStorage(toDoContainer);
                     countCompletedTodo();
                 } else {
                     toDoContainer[index].Checked = false;
+                    HandleLocalStorage.saveToLocalStorage(toDoContainer);
                     countCompletedTodo();
                 }
             }
@@ -157,16 +160,17 @@ const toDoApp = (() => {
             })
         };
 
-        return { setupEventListener };
+        return { setupEventListener, countToDo, countCompletedTodo };
     })();
-
-
 
     const init = async () => {
         Affirmation = await FetchModule.fetchAffirmation();
         UIModule.displayAffirmation();
+        toDoContainer = HandleLocalStorage.loadFromLocalStorage();  // Load saved todos
+        UIModule.renderToDo();  // Render loaded todos
         TodoController.setupEventListener();
-        toDoContainer = await HandleLocalStorage.loadFromLocalStorage();
+        TodoController.countToDo();
+        TodoController.countCompletedTodo();
     }
 
     return { init };
