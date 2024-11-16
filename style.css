@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
 
 section {
     background-image: url('../images/page-bg.png');
     background-repeat: repeat;
     background-position: contain;
     background-size:cover;
-    font-family: 'Pacifico', cursive;
+    font-family: cursive;
     min-height: 100vh;
     height:100%;
     width: 100%;
